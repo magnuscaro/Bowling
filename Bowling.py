@@ -30,6 +30,11 @@ class bowlingGame():
         GAME_SIZE = len(bowlingscores)
         GAME_SIZE_END_OFFSET = 1
         ALLPINS = 10
+
+        # Score definitions
+        SPARE = '/'
+        MISS = '-'
+        STRIKE = 'X'
         
         # Booleans to keep track of bonusrolls.
         isSpareBonusRoll = False
@@ -38,12 +43,12 @@ class bowlingGame():
         # Loop through all rolls and sum them up. Special handling needed for strikes and spares.
         for i in range(GAME_SIZE):
             currentRoll = bowlingscores[i]
-            if currentRoll == '-':
+            if currentRoll == MISS:
                 # Miss, do nothing.
                 pass
 
             # Current roll is a spare. Strike gives a bonus of the the next throw.
-            elif currentRoll == '/':
+            elif currentRoll == SPARE:
                 bonus1 = 0
                 if isSpareBonusRoll == True or isStrikeBonusRoll == True:
                     # Bonusroll has been handled. Do nothing
@@ -59,7 +64,7 @@ class bowlingGame():
                 score = score - prevRoll + ALLPINS + bonus1
 
             # Current roll is a strike. Strike gives a bonus of the simple sum of the two next throws.
-            elif currentRoll == 'X':
+            elif currentRoll == STRIKE:
                 bonus1 = 0
                 bonus2 = 0
                 if isSpareBonusRoll == True or isStrikeBonusRoll == True:
@@ -69,7 +74,7 @@ class bowlingGame():
                     nextNextRoll = self.getScoreFromSign(bowlingscores[i+2])
                     bonus1 = nextRoll
                     bonus2IsSpare = bowlingscores[i+2]
-                    if bonus2IsSpare == '/':
+                    if bonus2IsSpare == SPARE:
                         bonus2 = ALLPINS - bonus1
                     else:
                         bonus2 = nextNextRoll
